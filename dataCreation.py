@@ -121,7 +121,7 @@ def make_moon_clusters(data):
     zeros = np.random.randint(
         -2,2,(data["points"], data["length"] - 2), dtype=int)
     new_features = np.append(new_features, zeros, axis=1)
-    return (new_features, targets)
+    return (np.abs(np.round(new_features)).astype(int), targets)
 
 
 def make_circle_clusters(data):
@@ -136,7 +136,7 @@ def make_circle_clusters(data):
     zeros = np.random.randint(
         -2,2,(data["points"], data["length"] - 2), dtype=int)
     new_features = np.append(new_features, zeros, axis=1)
-    return (new_features, targets)
+    return (np.abs(np.round(new_features)).astype(int), targets)
 
 
 if __name__ == "__main__":
@@ -168,13 +168,18 @@ if __name__ == "__main__":
 
 
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    colorMap = "bgrcmyk"*2
-    for i in range(np.max(target)):
-        feature = features[target == i]
-        ax.scatter(feature[:, 0], feature[:, 1],
-                   feature[:, 2], color=colorMap[i])
-    plt.show()
+#    fig = plt.figure()
+#    ax = fig.add_subplot(111, projection='3d')
+#    colorMap = "bgrcmyk"*2
+#    for i in range(np.max(target)):
+#        feature = features[target == i]
+#        ax.scatter(feature[:, 0], feature[:, 1],feature[:, 2], color=colorMap[i])
+#    plt.show()
 
-    
+
+    print(features.shape, target.shape)
+    print(["x{}".format(i) for i in range(data["length"])])
+#    df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
+#    print(df)
+#    df.to_csv("test.csv", sep=',')
+#    print(df)
