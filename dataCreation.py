@@ -177,9 +177,11 @@ if __name__ == "__main__":
 #    plt.show()
 
 
-    print(features.shape, target.shape)
-    print(["x{}".format(i) for i in range(data["length"])])
-#    df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
-#    print(df)
-#    df.to_csv("test.csv", sep=',')
+    df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
+    df_nan = df.mask(np.random.random(df.shape) < .05)
+    df_nan["target"] = target
+    # print(df)
+    # print(np.unique(target))
+    df_nan.to_csv("test.csv", sep=',')
+    print(df.shape)
 #    print(df)
