@@ -113,9 +113,11 @@ def make_moon_clusters(data):
     features, targets = make_moons(n_samples=data["points"],
                                    noise=noise,
                                    random_state=GLOBAL_RANDOM_STATE)
-    # print(np.min(features))
-    # exit(0)
-    return (features + abs(np.min(features)), targets)
+    
+    new_features = features + abs(np.min(features))
+    zeros = np.zeros((data["points"], data["feature_value"] - 2), dtype=int)
+    new_features = np.append(new_features, zeros, axis=1)
+    return (new_features, targets)
 
 def make_circle_clusters(data):
     noise = np.random.choice(np.arange(0.05, 0.1, 0.01), 1)
@@ -124,11 +126,15 @@ def make_circle_clusters(data):
                                      noise=noise,
                                      factor=factor,
                                      random_state=GLOBAL_RANDOM_STATE)
-    return (features, targets)
+    
+    new_features = features + abs(np.min(features))
+    zeros = np.zeros((data["points"], data["feature_value"] - 2), dtype=int)
+    new_features = np.append(new_features, zeros, axis=1)
+    return (new_features, targets)
+
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-
 if __name__ == "__main__":
     features, target = make_circle_clusters(main())
 #    sns.scatterplot(features[:, 0], features[:, 1])
@@ -137,9 +143,9 @@ if __name__ == "__main__":
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     feature0 = features[target==0]
-    ax.scatter(feature0[:, 0], feature0[:, 1],) #feature0[:, 2],color="red")
+    ax.scatter(feature0[:, 0], feature0[:, 1], feature0[:, 2],color="red")
     feature1 = features[target==1]
-    ax.scatter(feature1[:, 0], feature1[:, 1],) #feature1[:, 2],color="blue")
-    # feature2 = features[target==2]
-    # ax.scatter(feature2[:, 0], feature2[:, 1], feature2[:, 2],color="green")
+    ax.scatter(feature1[:, 0], feature1[:, 1], feature1[:, 2],color="blue")
+    feature2 = features[target==2]
+    ax.scatter(feature2[:, 0], feature2[:, 1], feature2[:, 2],color="green")
     plt.show()
