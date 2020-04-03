@@ -62,7 +62,6 @@ def main():
 
 
 def makeBlobs(data):
-    print("Here",data)
     features, targets = make_blobs(n_samples=data["points"],
                                    n_features=data["length"],
                                    centers=data["clusters"],
@@ -75,7 +74,6 @@ def makeBlobs(data):
 
 
 def make_linear_clusters(data):
-    print("Not here",data)
     features, targets = make_blobs(n_samples=data["points"],
                                    n_features=data["length"],
                                    centers=data["clusters"],
@@ -84,14 +82,13 @@ def make_linear_clusters(data):
                                    shuffle=True,
                                    random_state=GLOBAL_RANDOM_STATE
                                    )
-    # print("Here",features.shape)
+
     contractFeatures = random.sample(
         list(range(data["length"])),
         random.randint(0, int(0.5*data["length"])))
     for column in range(data["length"]):
         if column in contractFeatures:
             features[:, column] = features[:, column]/(2 + random.random())
-    # print("Here",features.shape)
     return (np.abs(np.round(features)).astype(int), targets)
 
 
@@ -121,7 +118,8 @@ def make_moon_clusters(data):
                                    random_state=GLOBAL_RANDOM_STATE)
 
     new_features = features + abs(np.min(features))
-    zeros = np.zeros((data["points"], data["length"] - 2), dtype=int)
+    zeros = np.random.randint(
+        -2,2,(data["points"], data["length"] - 2), dtype=int)
     new_features = np.append(new_features, zeros, axis=1)
     return (new_features, targets)
 
@@ -135,13 +133,13 @@ def make_circle_clusters(data):
                                      random_state=GLOBAL_RANDOM_STATE)
 
     new_features = features + abs(np.min(features))
-    zeros = np.zeros((data["points"], data["length"] - 2), dtype=int)
+    zeros = np.random.randint(
+        -2,2,(data["points"], data["length"] - 2), dtype=int)
     new_features = np.append(new_features, zeros, axis=1)
     return (new_features, targets)
 
 
 if __name__ == "__main__":
-    # features, target = (np.array([]), np.array([]))
     data = main()
     centerOffset = data["feature_value"]+1
 
@@ -156,11 +154,11 @@ if __name__ == "__main__":
     targetNoisy = targetNoisy + np.max(targetLinear) + 1
 
     featureMoon, targetMoon = make_moon_clusters(data)
-    featureMoon = featureMoon + 3*centerOffset
+    featureMoon = featureMoon + 4*centerOffset
     targetMoon = targetMoon + np.max(targetNoisy) + 1
 
     featureCircle, targetCircle = make_circle_clusters(data)
-    featureCircle = featureCircle + 4*centerOffset
+    featureCircle = featureCircle + 5*centerOffset
     targetCircle = targetCircle + np.max(targetMoon) + 1
 
     features = np.concatenate(
@@ -178,3 +176,5 @@ if __name__ == "__main__":
         ax.scatter(feature[:, 0], feature[:, 1],
                    feature[:, 2], color=colorMap[i])
     plt.show()
+
+    
