@@ -1,6 +1,6 @@
 import getopt
 import sys
-from sklearn.datasets import make_blobs
+from sklearn.datasets import make_blobs, make_moons, make_circles
 import pandas as pd
 import random
 import numpy as np
@@ -90,8 +90,41 @@ def make_linear_clusters(data):
 
     return (np.abs(np.round(features)).astype(int), targets)
 
+def make_noisy_clusters(data):
+    small_std = np.arange(0.5, 5, 0.5)
+    large_std = np.arange(5, 10, 0.5)
+    small_perc = 0.8
+    split = int(data["clusters"] * small_perc)
+    cluster_std1 = np.random.choice(small_std, split)
+    cluster_std2 = np.random.choice(large_std, data["clusters"] - split)
+    cluster_std = np.append(cluster_std1, cluster_std2)
+    
+    features, targets = make_blobs(n_samples=data["points"],
+                                   n_features=data["length"],
+                                   centers=data["clusters"],
+                                   cluster_std=cluster_std,
+                                   center_box=(0, data["feature_value"]),
+                                   random_state=GLOBAL_RANDOM_STATE)
+    
+    return (np.abs(np.round(features)).astype(int), targets)
+
+def make_moon_clusters(data):
+    noise = np.random.choice(np.arange(0.05, 0.1, 0.01), 1)
+    features, targets = make_moons(n_samples=data["points"],
+                                   noise=noise,
+                                   random_state=GLOBAL_RANDOM_STATE)
+    return (features, targets)
+
+def make_circle_clusters(data):
+    noise = np.random.choice(np.arange(0.05, 0.1, 0.01), 1)
+    factor = np.random.choice(np.arange(0.1, 0.7, 0.05), 1)
+    features, targets = make_circles(n_samples=data["points"],
+                                     noise=noise,
+                                     factor=factor,
+                                     random_state=GLOBAL_RANDOM_STATE)
+    return (features, targets)
 
 if __name__ == "__main__":
-    features, _ = makeBlobs(main())
+    features, _ = make_noisy_clusters(main())
     sns.scatterplot(features[:, 0], features[:, 1])
     plt.show()
