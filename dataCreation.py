@@ -142,34 +142,38 @@ if __name__ == "__main__":
     data = main()
     centerOffset = data["feature_value"]+1
 
-    featureBlob, targetBlob = make_circle_clusters()
+    featureBlob, targetBlob = make_circle_clusters(data)
 
-    featureLinear, targetLinear = make_linear_clusters()
+    featureLinear, targetLinear = make_linear_clusters(data)
     featureLinear = featureLinear + centerOffset
     targetLinear = targetLinear + np.max(targetBlob) + 1
 
-    featureNoisy, targetNoisy = make_noisy_clusters()
+    featureNoisy, targetNoisy = make_noisy_clusters(data)
     featureNoisy = featureNoisy + 2*centerOffset
     targetNoisy = targetNoisy + np.max(targetLinear) + 1
 
-    featureMoon, targetMoon = make_moon_clusters()
+    featureMoon, targetMoon = make_moon_clusters(data)
     featureMoon = featureMoon + 3*centerOffset
     targetMoon = targetMoon + np.max(targetNoisy) + 1
 
-    featureCircle, targetCircle = make_circle_clusters()
+    featureCircle, targetCircle = make_circle_clusters(data)
     featureCircle = featureCircle + 4*centerOffset
     targetCircle = targetCircle + np.max(targetMoon) + 1
 
-    features = np.concatenate(
-        (featureBlob, featureLinear, featureNoisy,featureMoon,featureCircle))
-    target = np.concatenate(
-        (targetBlob, targetLinear, targetNoisy,targetMoon,targetCircle))
+    # features = np.concatenate(
+    #     (featureBlob, featureLinear, featureNoisy,featureMoon,featureCircle))
+    # target = np.concatenate(
+    #     (targetBlob, targetLinear, targetNoisy,targetMoon,targetCircle))
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    colorMap = "bgrcmyk"*2
-    for i in range(np.max(target)):
-        feature = features[target == i]
-        ax.scatter(feature[:, 0], feature[:, 1],
-                   feature[:, 2], color=colorMap[i])
-    plt.show()
+    l = [featureBlob, featureLinear, featureNoisy,featureMoon,featureCircle]
+    for x in l:
+        print(x.shape)
+
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    # colorMap = "bgrcmyk"*2
+    # for i in range(np.max(target)):
+    #     feature = features[target == i]
+    #     ax.scatter(feature[:, 0], feature[:, 1],
+    #                feature[:, 2], color=colorMap[i])
+    # plt.show()
