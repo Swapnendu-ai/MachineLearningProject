@@ -44,18 +44,18 @@ def main():
             v["value"] = temp
         else:
             print("{} is not a valid input for {}".format(temp, k))
-            exit(-1)
+#            exit(-1)
     if args["points"]["value"] < 10 * args["clusters"]["value"]:
         print("\nERROR: {} is too large a cluster for {} points.".format(
             args["clusters"]["value"], args["points"]["value"]))
-        exit(-1)
+#        exit(-1)
     if (args["points"]["value"] >
             args["feature_value"]["value"] ** args["length"]["value"]):
         print(("\nERROR: {} feature_value and DNA of length {} is too small for {}"
                + " points.").format(
             args["feature_value"]["value"], args["length"]["value"],
             args["points"]["value"]))
-        exit(-1)
+#        exit(-1)
 
     return {k: v["value"] for k, v in args.items()}
 
@@ -124,7 +124,15 @@ def make_circle_clusters(data):
                                      random_state=GLOBAL_RANDOM_STATE)
     return (features, targets)
 
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
 if __name__ == "__main__":
-    features, _ = make_noisy_clusters(main())
-    sns.scatterplot(features[:, 0], features[:, 1])
+    features, _ = makeBlobs(main())
+#    sns.scatterplot(features[:, 0], features[:, 1])
+#    plt.show()
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(features[:, 0], features[:, 1], features[:, 2], )
     plt.show()
