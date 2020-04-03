@@ -98,14 +98,14 @@ def make_noisy_clusters(data):
     cluster_std1 = np.random.choice(small_std, split)
     cluster_std2 = np.random.choice(large_std, data["clusters"] - split)
     cluster_std = np.append(cluster_std1, cluster_std2)
-    
+
     features, targets = make_blobs(n_samples=data["points"],
                                    n_features=data["length"],
                                    centers=data["clusters"],
                                    cluster_std=cluster_std,
                                    center_box=(0, data["feature_value"]),
                                    random_state=GLOBAL_RANDOM_STATE)
-    
+
     return (np.abs(np.round(features)).astype(int), targets)
 
 def make_moon_clusters(data):
@@ -113,7 +113,9 @@ def make_moon_clusters(data):
     features, targets = make_moons(n_samples=data["points"],
                                    noise=noise,
                                    random_state=GLOBAL_RANDOM_STATE)
-    return (features, targets)
+    # print(np.min(features))
+    # exit(0)
+    return (features + abs(np.min(features)), targets)
 
 def make_circle_clusters(data):
     noise = np.random.choice(np.arange(0.05, 0.1, 0.01), 1)
@@ -128,11 +130,16 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 if __name__ == "__main__":
-    features, _ = makeBlobs(main())
+    features, target = make_circle_clusters(main())
 #    sns.scatterplot(features[:, 0], features[:, 1])
 #    plt.show()
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(features[:, 0], features[:, 1], features[:, 2], )
+    feature0 = features[target==0]
+    ax.scatter(feature0[:, 0], feature0[:, 1],) #feature0[:, 2],color="red")
+    feature1 = features[target==1]
+    ax.scatter(feature1[:, 0], feature1[:, 1],) #feature1[:, 2],color="blue")
+    # feature2 = features[target==2]
+    # ax.scatter(feature2[:, 0], feature2[:, 1], feature2[:, 2],color="green")
     plt.show()
