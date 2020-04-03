@@ -13,11 +13,11 @@ random.seed(GLOBAL_RANDOM_STATE)
 
 args = {
     "points": {
-        "question": "How many points in the dataset? ",
+        "question": "How many points of a type in the dataset? ",
         "value": None
     },
     "clusters": {
-        "question": "How many clusters in the dataset? ",
+        "question": "How many clusters of a type in the dataset? ",
         "value": None
     },
     "feature_value": {
@@ -39,6 +39,7 @@ def main():
     feature-value -- Number of different protein-bases possible
                      In humans, it is 4, [A,T,G,C]
     """
+    print("We have 5 types of methods to generate data.")
     for k, v in args.items():
         temp = int(input(v["question"]))
         if temp > 0:
@@ -168,20 +169,20 @@ if __name__ == "__main__":
 
 
 
-#    fig = plt.figure()
-#    ax = fig.add_subplot(111, projection='3d')
-#    colorMap = "bgrcmyk"*2
-#    for i in range(np.max(target)):
-#        feature = features[target == i]
-#        ax.scatter(feature[:, 0], feature[:, 1],feature[:, 2], color=colorMap[i])
-#    plt.show()
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    colorMap = "bgrcmyk"*np.max(target)
+    for i in range(np.max(target)):
+        feature = features[target == i]
+        ax.scatter(feature[:, 0], feature[:, 1],feature[:, 2], color=colorMap[i])
+    plt.show()
 
 
-    df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
-    df_nan = df.mask(np.random.random(df.shape) < .05)
-    df_nan["target"] = target
-    # print(df)
-    # print(np.unique(target))
-    df_nan.to_csv("test.csv", sep=',')
-    print(df.shape)
+    # df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
+    # df_nan = df.mask(np.random.random(df.shape) < .05)
+    # df_nan["target"] = target
+    # # print(df)
+    # # print(np.unique(target))
+    # df_nan.to_csv("test.csv", sep=',')
+    # print(df.shape)
 #    print(df)
