@@ -169,20 +169,20 @@ if __name__ == "__main__":
 
 
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    colorMap = "bgrcmyk"*np.max(target)
-    for i in range(np.max(target)):
-        feature = features[target == i]
-        ax.scatter(feature[:, 0], feature[:, 1],feature[:, 2], color=colorMap[i])
-    plt.show()
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    # colorMap = "bgrcmyk"*np.max(target)
+    # for i in range(np.max(target)):
+    #     feature = features[target == i]
+    #     ax.scatter(feature[:, 0], feature[:, 1],feature[:, 2], color=colorMap[i])
+    # plt.show()
 
 
-    # df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
-    # df_nan = df.mask(np.random.random(df.shape) < .05)
-    # df_nan["target"] = target
-    # # print(df)
-    # # print(np.unique(target))
-    # df_nan.to_csv("test.csv", sep=',')
-    # print(df.shape)
+    df = pd.DataFrame(features, columns=["x{}".format(i) for i in range(data["length"])])
+    df_nan = df.mask(np.random.random(df.shape) < .05)
+    df_nan["target"] = target
+    # print(df)
+    # print(np.unique(target))
+    df_nan.to_csv("test.csv",index=False)
+    print(df.shape)
 #    print(df)
