@@ -116,9 +116,11 @@ def make_moon_clusters(data):
     features, targets = make_moons(n_samples=data["points"],
                                    noise=noise,
                                    random_state=GLOBAL_RANDOM_STATE)
-    # print(np.min(features))
-    # exit(0)
-    return (features + abs(np.min(features)), targets)
+
+    new_features = features + abs(np.min(features))
+    zeros = np.zeros((data["points"], data["feature_value"] - 2), dtype=int)
+    new_features = np.append(new_features, zeros, axis=1)
+    return (new_features, targets)
 
 
 def make_circle_clusters(data):
@@ -128,7 +130,11 @@ def make_circle_clusters(data):
                                      noise=noise,
                                      factor=factor,
                                      random_state=GLOBAL_RANDOM_STATE)
-    return (features, targets)
+
+    new_features = features + abs(np.min(features))
+    zeros = np.zeros((data["points"], data["feature_value"] - 2), dtype=int)
+    new_features = np.append(new_features, zeros, axis=1)
+    return (new_features, targets)
 
 
 if __name__ == "__main__":
