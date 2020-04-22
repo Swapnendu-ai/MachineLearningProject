@@ -15,5 +15,6 @@ Details about the project are available in DataPreparation.ipynb
 - Run the file using 'python3 QuAM.py'
 - Write the name of the file corresponding to the dataset (link is above).
 - Write 'y' if you want to classify the whole dataset, 'n' otherwise.
-- If you wrote 'y', the program will output a file 'result.txt' with all the classifications.
-- If you wrote 'n', write the row number of the DNA sequence you want to classify. It will then print out the result.
+- If you wrote 'y', the program will output a file 'result.csv' with all the classifications.
+- If you wrote 'n', write the name of a class you would like to predict.
+- The program will pick a random row with that class and predict it.
